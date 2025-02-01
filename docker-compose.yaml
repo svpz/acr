@@ -1,0 +1,20 @@
+services:
+  api:
+    build: .
+    deploy:
+      replicas: 3  # Run 3 instances of the API
+    restart: always
+    env_file: .env
+    volumes:
+      - .:/app
+
+  nginx:
+    image: nginx:latest
+    container_name: code-executor-nginx
+    restart: always
+    depends_on:
+      - api
+    ports:
+      - "80:80"
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/nginx.conf:ro
