@@ -1,3 +1,7 @@
 Django
 gunicorn
 psycopg2
+djangorestframework
+markdown
+django-filter
+djangorestframework-simplejwt
