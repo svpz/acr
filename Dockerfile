@@ -19,4 +19,4 @@ RUN chmod -R 755 /app/staticfiles
 EXPOSE 8000
 
 # Run migrations, collect static files, and start Gunicorn after ensuring database is ready
-CMD python manage.py migrate && python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 api.wsgi:application
+CMD python manage.py migrate && python manage.py collectstatic --noinput && gunicorn --reload --bind 0.0.0.0:8000 api.wsgi:application
