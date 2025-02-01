@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-m*_w5ry+c7&e-w((n=#ati!^$+t*bwj7#ke2t!-4l^63vgw4)x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -75,11 +75,14 @@ WSGI_APPLICATION = 'api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME', 'postgres'),  # Replace with your DB name or use an environment variable
+        'USER': os.getenv('DB_USER', 'postgres'),  # Replace with your DB user or use an environment variable
+        'PASSWORD': os.getenv('DB_PASSWORD', 'postgres'),  # Replace with your DB password or use an environment variable
+        'HOST': 'postgres',  # This matches the service name in Docker Compose
+        'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -115,8 +118,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # This is required!
+STATIC_URL = '/static/'
+STATIC_ROOT = '/app/staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

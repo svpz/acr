@@ -13,14 +13,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Ensure the STATIC_ROOT directory exists
 RUN mkdir -p /app/staticfiles
 
+RUN chmod -R 755 /app/staticfiles
+
 # Expose the port Gunicorn will run on
 EXPOSE 8000
 
-# Run migrations and collect static files
-RUN python manage.py migrate && python manage.py collectstatic --noinput
-
-# Create superuser if not exists
-RUN python manage.py createsuperuser --noinput || true
-
-# Start the Gunicorn server
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "api.wsgi:application"]
+# Run migrations, collect static files, and start Gunicorn after ensuring database is ready
+CMD python manage.py migrate && python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 api.wsgi:application
